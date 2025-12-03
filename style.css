@@ -288,6 +288,7 @@ nav .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+   flex-wrap: wrap;
 }
 
 .logo {
@@ -903,3 +904,4 @@ footer p {
   opacity: 1;
   transform: translateY(0);
 }
+
