@@ -291,6 +291,17 @@ nav .container {
    flex-wrap: wrap;
 }
 
+@media screen and (max-width: 600px) {
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  nav ul li {
+    margin : 5px 10px
+  }
+    
+}
+
 .logo {
   font-family: var(--font-code);
   font-size: 1.5rem;
@@ -904,4 +915,5 @@ footer p {
   opacity: 1;
   transform: translateY(0);
 }
+
 
