@@ -1,4 +1,37 @@
 // ===================================
+// HAMBURGER MENU TOGGLE
+// ===================================
+
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+
+if (hamburger) {
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+}
+
+// Close menu when a nav link is clicked
+if (navMenu) {
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (hamburger && navMenu && !hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    }
+});
+
+// ===================================
 // TYPING ANIMATION
 // ===================================
 
@@ -16,7 +49,7 @@ let typingSpeed = 100;
 
 function typeText() {
     const currentText = texts[textIndex];
-    
+
     if (isDeleting) {
         typingText.textContent = currentText.substring(0, charIndex - 1);
         charIndex--;
@@ -26,7 +59,7 @@ function typeText() {
         charIndex++;
         typingSpeed = 100;
     }
-    
+
     if (!isDeleting && charIndex === currentText.length) {
         // Pause at end
         typingSpeed = 2000;
@@ -36,7 +69,7 @@ function typeText() {
         textIndex = (textIndex + 1) % texts.length;
         typingSpeed = 500;
     }
-    
+
     setTimeout(typeText, typingSpeed);
 }
 
@@ -50,17 +83,16 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===================================
 
 const navbar = document.getElementById('navbar');
-let lastScroll = 0;
 
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
-    
+
     if (currentScroll > 100) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
     }
-    
+
     lastScroll = currentScroll;
 });
 
@@ -95,7 +127,7 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('animate');
-            
+
             // Animate skill progress bars
             if (entry.target.classList.contains('skill-category')) {
                 const progressBars = entry.target.querySelectorAll('.skill-progress-bar');
@@ -117,28 +149,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const skillsGrid = document.querySelector('.skills-grid');
     if (aboutText) observer.observe(aboutText);
     if (skillsGrid) observer.observe(skillsGrid);
-    
+
     // Project cards
     const projectCards = document.querySelectorAll('.project-card');
     projectCards.forEach((card, index) => {
         card.style.animationDelay = `${index * 0.1}s`;
         observer.observe(card);
     });
-    
+
     // Skill categories
     const skillCategories = document.querySelectorAll('.skill-category');
     skillCategories.forEach((category, index) => {
         category.style.animationDelay = `${index * 0.15}s`;
         observer.observe(category);
     });
-    
+
     // Timeline items
     const timelineItems = document.querySelectorAll('.timeline-item');
     timelineItems.forEach((item, index) => {
         item.style.animationDelay = `${index * 0.2}s`;
         observer.observe(item);
     });
-    
+
     // Contact section
     const contactInfo = document.querySelector('.contact-info');
     const contactForm = document.querySelector('.contact-form');
@@ -154,26 +186,26 @@ const contactFormElement = document.getElementById('contact-form');
 
 contactFormElement.addEventListener('submit', (e) => {
     e.preventDefault();
-    
+
     // Get form data
     const formData = new FormData(contactFormElement);
     const name = formData.get('name');
     const email = formData.get('email');
     const message = formData.get('message');
-    
+
     // Simulate form submission (replace with actual backend call)
     console.log('Form submitted:', { name, email, message });
-    
+
     // Show success message
     const submitBtn = contactFormElement.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     submitBtn.textContent = 'Message Sent! ✓';
     submitBtn.style.background = 'var(--gradient-primary)';
     submitBtn.style.borderColor = 'transparent';
-    
+
     // Reset form
     contactFormElement.reset();
-    
+
     // Reset button after 3 seconds
     setTimeout(() => {
         submitBtn.textContent = originalText;
@@ -198,7 +230,7 @@ class Particle {
         this.speedY = Math.random() * 3 - 1.5;
         this.life = 100;
     }
-    
+
     update() {
         this.x += this.speedX;
         this.y += this.speedY;
@@ -234,7 +266,7 @@ document.addEventListener('mousemove', (e) => {
     const heroSection = document.getElementById('hero');
     const heroRect = heroSection.getBoundingClientRect();
     isInHero = e.clientY >= heroRect.top && e.clientY <= heroRect.bottom;
-    
+
     if (isInHero && particles.length < maxParticles) {
         particles.push(new Particle(e.clientX, e.clientY));
     }
@@ -242,21 +274,21 @@ document.addEventListener('mousemove', (e) => {
 
 function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.update();
-        
+
         ctx.fillStyle = `rgba(0, 243, 255, ${p.life / 100})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
-        
+
         if (p.life <= 0) {
             particles.splice(i, 1);
         }
     }
-    
+
     requestAnimationFrame(animateParticles);
 }
 
@@ -271,12 +303,12 @@ const navLinks = document.querySelectorAll('.nav-links a');
 
 function updateActiveLink() {
     const scrollPosition = window.pageYOffset + 150;
-    
+
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
         const sectionId = section.getAttribute('id');
-        
+
         if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
             navLinks.forEach(link => {
                 link.style.color = 'var(--text-secondary)';
